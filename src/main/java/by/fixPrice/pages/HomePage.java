@@ -12,6 +12,7 @@ import java.time.Duration;
 public class HomePage {
     private final String BASE_URL = "https://fix-price.by/";
     private final By COOKIE_ALERT_ACCEPT_BTN = By.xpath("//div[@class='cookies-bar']//button[@class='button config']");
+    private final By LOGIN_BTN = By.xpath("//div[@class='categories-wrapper categories']//button[@class='log-in link']");
 
     public WebDriver driver;
     public WebDriverWait wait;
@@ -25,6 +26,10 @@ public class HomePage {
         return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
+    public void openPage() {
+        driver.get(BASE_URL);
+    }
+
     public void openPage(String url) {
         driver.get(url);
     }
@@ -34,5 +39,14 @@ public class HomePage {
     }
 
     //Login
+    private final By LOGIN_FORM_TITLE = By.xpath("//dialog//header//h3[@class='title']");
+
+    public void openLoginForm() {
+        waitForVisibleOfElement(LOGIN_BTN).click();
+    }
+
+    public String getLoginFormTitle() {
+        return waitForVisibleOfElement(LOGIN_FORM_TITLE).getText();
+    }
 
 }
