@@ -40,13 +40,50 @@ public class HomePage {
 
     //Login
     private final By LOGIN_FORM_TITLE = By.xpath("//dialog//header//h3[@class='title']");
+    private final By LOGIN_FORM_TOGGLE_BY_PHONE = By.xpath("//dialog//div[@data-component='MultiToggle']//button[1]");
+    private final By LOGIN_FORM_TOGGLE_BY_EMAIL = By.xpath("//dialog//div[@data-component='MultiToggle']//button[2]");
+    private final By LOGIN_FORM_LOGIN_LABEL_BY_PHONE = By.xpath("//dialog//form//div[@class='login']//label[@class='label']");
+    private final By LOGIN_FORM_LOGIN_INPUT_BY_PHONE = By.xpath("//dialog//form//div[@class='login']//input[@class='input-text']");
+    private final By LOGIN_FORM_PASSWORD_LABEL_BY_PHONE = By.xpath("//dialog//form//div[@class='password']//label[@class='label']");
+    private final By LOGIN_FORM_PASSWORD_INPUT_BY_PHONE = By.xpath("//dialog//form//div[@class='password']//input[@class='input-text']");
 
     public void openLoginForm() {
         waitForVisibleOfElement(LOGIN_BTN).click();
+    }
+
+    public void clickLoginFormToggleByPhone() {
+        waitForVisibleOfElement(LOGIN_FORM_TOGGLE_BY_PHONE).click();
+    }
+
+    public void clickLoginFormToggleByEmail() {
+        waitForVisibleOfElement(LOGIN_FORM_TOGGLE_BY_EMAIL).click();
     }
 
     public String getLoginFormTitle() {
         return waitForVisibleOfElement(LOGIN_FORM_TITLE).getText();
     }
 
+    public String getLoginFormToggleByPhone() {
+        return waitForVisibleOfElement(LOGIN_FORM_TOGGLE_BY_PHONE).getText();
+    }
+
+    public String getLoginFormToggleByEmail() {
+        return waitForVisibleOfElement(LOGIN_FORM_TOGGLE_BY_EMAIL).getText();
+    }
+
+    public String getLoginFormLoginLabelByPhone() {
+        return waitForVisibleOfElement(LOGIN_FORM_LOGIN_LABEL_BY_PHONE).getText();
+    }
+
+    public WebElement getLoginFormLoginInputByPhone() {
+        return waitForVisibleOfElement(LOGIN_FORM_LOGIN_INPUT_BY_PHONE);
+    }
+
+    public String getLoginFormPasswordLabelByPhone() {
+        return waitForVisibleOfElement(LOGIN_FORM_PASSWORD_LABEL_BY_PHONE).getText();
+    }
+
+    public WebElement getLoginFormPasswordInputByPhone() {
+        return waitForVisibleOfElement(LOGIN_FORM_PASSWORD_INPUT_BY_PHONE);
+    }
 }
