@@ -12,6 +12,6 @@ public class SearchPage extends HomePage {
     }
 
     public String getNotFoundText() {
-        return waitForVisibleOfElement(NOT_FOUND_TEXT).getText();
+        return waitFVOE(NOT_FOUND_TEXT).getText();
     }
 }
