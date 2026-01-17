@@ -13,16 +13,27 @@ public class HomePage {
     private final String BASE_URL = "https://fix-price.by/";
     private final By COOKIE_ALERT_ACCEPT_BTN = By.xpath("//div[@class='cookies-bar']//button[@class='button config']");
     private final By LOGIN_BTN = By.xpath("//div[@class='categories-wrapper categories']//button[@class='log-in link']");
-
+    private final By PROFILE_BTN_TEXT = By.xpath("//div[@class='categories-wrapper categories']/div[@class='profile-desktop']//span[@class='title']");
+    //Login
+    private final By LOGIN_FORM_TITLE = By.xpath("//dialog//header//h3[@class='title']");
+    private final By LOGIN_FORM_TOGGLE_BY_PHONE = By.xpath("//dialog//div[@data-component='MultiToggle']//button[1]");
+    private final By LOGIN_FORM_TOGGLE_BY_EMAIL = By.xpath("//dialog//div[@data-component='MultiToggle']//button[2]");
+    private final By LOGIN_FORM_LOGIN_LABEL = By.xpath("//dialog//form//div[@class='login']//label[@class='label']");
+    private final By LOGIN_FORM_LOGIN_INPUT = By.xpath("//dialog//form//div[@class='login']//input[@class='input-text']");
+    private final By LOGIN_FORM_PASSWORD_LABEL = By.xpath("//dialog//form//div[@class='password']//label[@class='label']");
+    private final By LOGIN_FORM_PASSWORD_INPUT = By.xpath("//dialog//form//div[@class='password']//input[@class='input-text']");
+    private final By LOGIN_FORM_SUBMIT_BTN = By.xpath("//div[@class='login-form-modal']/form[@class='content']//button[@data-component='VButton']");
+    private final By LOGIN_FORM_FORGOT_PASSWORD_LINK = By.xpath("//div[@class='login-form-modal']/button[@class='to-recovering button hug minimal full-width']");
+    private final By LOGIN_FORM_REGISTER_LINK = By.xpath("//div[@class='login-form-modal']/button[@class='button hug minimal full-width']");
+    private final By LOGIN_FORM_CHECKBOX = By.xpath("//div[@class='login-form-modal']//div[@data-test='checkbox']/div[@data-test='checkbox-field']");
     public WebDriver driver;
     public WebDriverWait wait;
-
     public HomePage() {
         this.driver = Driver.getDriver();
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(5));
     }
 
-    public WebElement waitForVisibleOfElement(By locator) {
+    public WebElement waitFVOE(By locator) {
         return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
@@ -35,55 +46,107 @@ public class HomePage {
     }
 
     public void acceptCookies() {
-        waitForVisibleOfElement(COOKIE_ALERT_ACCEPT_BTN).click();
+        waitFVOE(COOKIE_ALERT_ACCEPT_BTN).click();
     }
 
-    //Login
-    private final By LOGIN_FORM_TITLE = By.xpath("//dialog//header//h3[@class='title']");
-    private final By LOGIN_FORM_TOGGLE_BY_PHONE = By.xpath("//dialog//div[@data-component='MultiToggle']//button[1]");
-    private final By LOGIN_FORM_TOGGLE_BY_EMAIL = By.xpath("//dialog//div[@data-component='MultiToggle']//button[2]");
-    private final By LOGIN_FORM_LOGIN_LABEL_BY_PHONE = By.xpath("//dialog//form//div[@class='login']//label[@class='label']");
-    private final By LOGIN_FORM_LOGIN_INPUT_BY_PHONE = By.xpath("//dialog//form//div[@class='login']//input[@class='input-text']");
-    private final By LOGIN_FORM_PASSWORD_LABEL_BY_PHONE = By.xpath("//dialog//form//div[@class='password']//label[@class='label']");
-    private final By LOGIN_FORM_PASSWORD_INPUT_BY_PHONE = By.xpath("//dialog//form//div[@class='password']//input[@class='input-text']");
-
     public void openLoginForm() {
-        waitForVisibleOfElement(LOGIN_BTN).click();
+        waitFVOE(LOGIN_BTN).click();
     }
 
     public void clickLoginFormToggleByPhone() {
-        waitForVisibleOfElement(LOGIN_FORM_TOGGLE_BY_PHONE).click();
+        waitFVOE(LOGIN_FORM_TOGGLE_BY_PHONE).click();
     }
 
     public void clickLoginFormToggleByEmail() {
-        waitForVisibleOfElement(LOGIN_FORM_TOGGLE_BY_EMAIL).click();
+        waitFVOE(LOGIN_FORM_TOGGLE_BY_EMAIL).click();
+    }
+
+    public void selectLoginForm(String formType) {
+        if (formType.equals("Phone")) {
+            waitFVOE(LOGIN_FORM_TOGGLE_BY_PHONE).click();
+        }
+        if (formType.equals("Email")) {
+            waitFVOE(LOGIN_FORM_TOGGLE_BY_EMAIL).click();
+        }
+    }
+
+    public void enterUserPhone(String phone) {
+        waitFVOE(LOGIN_FORM_LOGIN_INPUT).sendKeys(phone);
+    }
+
+    public void enterUserEmail(String email) {
+        waitFVOE(LOGIN_FORM_LOGIN_INPUT).sendKeys(email);
+    }
+
+    public void enterUserPassword(String password) {
+        waitFVOE(LOGIN_FORM_PASSWORD_INPUT).sendKeys(password);
+    }
+
+    public void clickLoginFormSubmit() {
+        waitFVOE(LOGIN_FORM_SUBMIT_BTN).click();
+    }
+
+    public void clickLoginFormForgotPasswordLink() {
+        waitFVOE(LOGIN_FORM_FORGOT_PASSWORD_LINK).click();
+    }
+
+    public void clickLoginFormRegisterLink() {
+        waitFVOE(LOGIN_FORM_REGISTER_LINK).click();
+    }
+
+    public void submitCheckbox() {
+        String checkboxCurrentClass = waitFVOE(LOGIN_FORM_CHECKBOX).getAttribute("class");
+
+        if (checkboxCurrentClass.equals("checkbox-field")) {
+            waitFVOE(LOGIN_FORM_CHECKBOX).click();
+        }
+    }
+
+    public void reSubmitCheckbox() {
+        String checkboxCurrentClass = waitFVOE(LOGIN_FORM_CHECKBOX).getAttribute("class");
+
+        if (checkboxCurrentClass.contains("checked")) {
+            waitFVOE(LOGIN_FORM_CHECKBOX).click();
+        }
+    }
+
+    public String getProfileBtnText() {
+        return waitFVOE(PROFILE_BTN_TEXT).getText();
+    }
+
+    public Boolean getCheckboxChecked() {
+        return waitFVOE(LOGIN_FORM_CHECKBOX).getAttribute("class").contains("checked");
     }
 
     public String getLoginFormTitle() {
-        return waitForVisibleOfElement(LOGIN_FORM_TITLE).getText();
+        return waitFVOE(LOGIN_FORM_TITLE).getText();
     }
 
     public String getLoginFormToggleByPhone() {
-        return waitForVisibleOfElement(LOGIN_FORM_TOGGLE_BY_PHONE).getText();
+        return waitFVOE(LOGIN_FORM_TOGGLE_BY_PHONE).getText();
     }
 
     public String getLoginFormToggleByEmail() {
-        return waitForVisibleOfElement(LOGIN_FORM_TOGGLE_BY_EMAIL).getText();
+        return waitFVOE(LOGIN_FORM_TOGGLE_BY_EMAIL).getText();
     }
 
     public String getLoginFormLoginLabelByPhone() {
-        return waitForVisibleOfElement(LOGIN_FORM_LOGIN_LABEL_BY_PHONE).getText();
+        return waitFVOE(LOGIN_FORM_LOGIN_LABEL).getText();
     }
 
     public WebElement getLoginFormLoginInputByPhone() {
-        return waitForVisibleOfElement(LOGIN_FORM_LOGIN_INPUT_BY_PHONE);
+        return waitFVOE(LOGIN_FORM_LOGIN_INPUT);
     }
 
     public String getLoginFormPasswordLabelByPhone() {
-        return waitForVisibleOfElement(LOGIN_FORM_PASSWORD_LABEL_BY_PHONE).getText();
+        return waitFVOE(LOGIN_FORM_PASSWORD_LABEL).getText();
     }
 
     public WebElement getLoginFormPasswordInputByPhone() {
-        return waitForVisibleOfElement(LOGIN_FORM_PASSWORD_INPUT_BY_PHONE);
+        return waitFVOE(LOGIN_FORM_PASSWORD_INPUT);
+    }
+
+    public WebElement getLoginFormSubmitButtonBy() {
+        return waitFVOE(LOGIN_FORM_SUBMIT_BTN);
     }
 }
