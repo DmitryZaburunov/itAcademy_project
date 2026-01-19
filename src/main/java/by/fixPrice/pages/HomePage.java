@@ -26,6 +26,10 @@ public class HomePage {
     private final By LOGIN_FORM_FORGOT_PASSWORD_LINK = By.xpath("//div[@class='login-form-modal']/button[@class='to-recovering button hug minimal full-width']");
     private final By LOGIN_FORM_REGISTER_LINK = By.xpath("//div[@class='login-form-modal']/button[@class='button hug minimal full-width']");
     private final By LOGIN_FORM_CHECKBOX = By.xpath("//div[@class='login-form-modal']//div[@data-test='checkbox']/div[@data-test='checkbox-field']");
+    private final By LOGIN_FORM_LOGIN_EMPTY_INPUT_ERROR = By.xpath("//dialog//form//div[@class='login']//div[@data-test='error']");
+    private final By LOGIN_FORM_PASSWORD_EMPTY_INPUT_ERROR = By.xpath("//dialog//form//div[@class='password']//div[@data-test='error']");
+    private final By LOGIN_FORM_INVALID_CREDENTIAL_ERROR = By.xpath("//div[@id='modal']/dialog[@class='wrapper modal-child']/div[@data-component='AuthWrapperError']/p");
+
     public WebDriver driver;
     public WebDriverWait wait;
     public HomePage() {
@@ -148,5 +152,17 @@ public class HomePage {
 
     public WebElement getLoginFormSubmitButtonBy() {
         return waitFVOE(LOGIN_FORM_SUBMIT_BTN);
+    }
+
+    public String getLoginErrorText() {
+        return waitFVOE(LOGIN_FORM_LOGIN_EMPTY_INPUT_ERROR).getText();
+    }
+
+    public String getPasswordErrorText() {
+        return waitFVOE(LOGIN_FORM_PASSWORD_EMPTY_INPUT_ERROR).getText();
+    }
+
+    public String getInvalidCredentialErrorText() {
+        return waitFVOE(LOGIN_FORM_INVALID_CREDENTIAL_ERROR).getText();
     }
 }
