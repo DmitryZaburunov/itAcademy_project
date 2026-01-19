@@ -9,12 +9,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class LoginTest {
-    private HomePage homePage;
     private LoginPage loginPage;
 
     @BeforeEach
     public void startupAndAcceptCookie() {
-        homePage = new HomePage();
+        HomePage homePage = new HomePage();
         homePage.openPage();
         homePage.acceptCookies();
         homePage.openLoginForm();
@@ -101,7 +100,7 @@ public class LoginTest {
 
     @Test
     public void submitFormWithIncorrectPhone() {
-        loginPage.enterUserPhone("999999999");
+        loginPage.enterUserPhone("9999999");
         loginPage.enterUserPassword("12342151");
         loginPage.submitCheckbox();
         loginPage.clickLoginFormSubmit();
@@ -110,6 +109,7 @@ public class LoginTest {
 
     @Test
     public void submitFormWithIncorrectEmail() {
+        loginPage.clickLoginFormToggleByEmail();
         loginPage.enterUserEmail("aaawadw@ddd");
         loginPage.enterUserPassword("12342151");
         loginPage.submitCheckbox();
