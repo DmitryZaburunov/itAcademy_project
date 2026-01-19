@@ -2,166 +2,148 @@ package by.fixPrice.ui;
 
 import by.fixPrice.driver.Driver;
 import by.fixPrice.pages.HomePage;
+import by.fixPrice.pages.LoginPage;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class LoginTest {
-    public HomePage homePage;
+    private HomePage homePage;
+    private LoginPage loginPage;
 
     @BeforeEach
     public void startupAndAcceptCookie() {
         homePage = new HomePage();
         homePage.openPage();
         homePage.acceptCookies();
+        homePage.openLoginForm();
+        loginPage = new LoginPage();
     }
-
-    //позитиные кейсы
 
     @Test
     public void successLoginByPhoneNumber() {
-        homePage.openLoginForm();
-        homePage.enterUserPhone("333772320");
-        homePage.enterUserPassword("92TQbg8MC@sh4h!");
-        homePage.submitCheckbox();
-        homePage.clickLoginFormSubmit();
-        Assertions.assertEquals("Профиль", homePage.getProfileBtnText(), "User isn't login by phone");
+        loginPage.enterUserPhone("333772320");
+        loginPage.enterUserPassword("92TQbg8MC@sh4h!");
+        loginPage.submitCheckbox();
+        loginPage.clickLoginFormSubmit();
+        Assertions.assertEquals("Профиль", loginPage.getProfileBtnText(), "User isn't login by phone");
     }
 
     @Test
     public void successLoginByEmail() {
-        homePage.openLoginForm();
-        homePage.selectLoginForm("Email");
-        homePage.enterUserEmail("dzmitry3077@gmail.com");
-        homePage.enterUserPassword("92TQbg8MC@sh4h!");
-        homePage.submitCheckbox();
-        homePage.clickLoginFormSubmit();
-        Assertions.assertEquals("Профиль", homePage.getProfileBtnText(), "User isn't login by email");
+        loginPage.selectLoginForm("Email");
+        loginPage.enterUserEmail("dzmitry3077@gmail.com");
+        loginPage.enterUserPassword("92TQbg8MC@sh4h!");
+        loginPage.submitCheckbox();
+        loginPage.clickLoginFormSubmit();
+        Assertions.assertEquals("Профиль", loginPage.getProfileBtnText(), "User isn't login by email");
     }
 
     @Test
     public void checkboxIsNotCheckedByDefault() {
-        homePage.openLoginForm();
-        Assertions.assertEquals(false, homePage.getCheckboxChecked(), "Checkbox is checked by default");
+        Assertions.assertEquals(false, loginPage.getCheckboxChecked(), "Checkbox is checked by default");
     }
 
     @Test
     public void submitDisabledUntilCheckboxChecked() {
-        homePage.openLoginForm();
-        Assertions.assertFalse(homePage.getLoginFormSubmitButtonBy().isEnabled());
+        Assertions.assertFalse(loginPage.getLoginFormSubmitButtonBy().isEnabled());
     }
 
     @Test
     public void forgotPasswordLinkRedirected() {
-        homePage.openLoginForm();
-        homePage.clickLoginFormForgotPasswordLink();
-        Assertions.assertEquals("Восстановление пароля", homePage.getLoginFormTitle());
+        loginPage.clickLoginFormForgotPasswordLink();
+        Assertions.assertEquals("Восстановление пароля", loginPage.getLoginFormTitle());
     }
 
     @Test
     public void registerLinkRedirected() {
-        homePage.openLoginForm();
-        homePage.clickLoginFormRegisterLink();
-        Assertions.assertEquals("Регистрация", homePage.getLoginFormTitle());
+        loginPage.clickLoginFormRegisterLink();
+        Assertions.assertEquals("Регистрация", loginPage.getLoginFormTitle());
     }
 
     @Test
     public void loginFormHeaderHasTitle() {
-        homePage.openLoginForm();
-        Assertions.assertEquals("Вход", homePage.getLoginFormTitle());
+        Assertions.assertEquals("Вход", loginPage.getLoginFormTitle());
     }
-
-    //негативные тесты логина
 
     @Test
     public void submitEmptyForm() {
-        homePage.openLoginForm();
-        homePage.submitCheckbox();
-        homePage.clickLoginFormSubmit();
-        Assertions.assertEquals("Требуется указать телефон", homePage.getLoginErrorText());
+        loginPage.submitCheckbox();
+        loginPage.clickLoginFormSubmit();
+        Assertions.assertEquals("Требуется указать телефон", loginPage.getLoginErrorText());
     }
 
     @Test
     public void submitFormWithoutPhone() {
-        homePage.openLoginForm();
-        homePage.enterUserPassword("12342151");
-        homePage.submitCheckbox();
-        homePage.clickLoginFormSubmit();
-        Assertions.assertEquals("Требуется указать телефон", homePage.getLoginErrorText());
+        loginPage.enterUserPassword("12342151");
+        loginPage.submitCheckbox();
+        loginPage.clickLoginFormSubmit();
+        Assertions.assertEquals("Требуется указать телефон", loginPage.getLoginErrorText());
     }
 
     @Test
     public void submitFormWithoutEmail() {
-        homePage.openLoginForm();
-        homePage.clickLoginFormToggleByEmail();
-        homePage.enterUserPassword("12324215");
-        homePage.submitCheckbox();
-        homePage.clickLoginFormSubmit();
-        Assertions.assertEquals("Требуется указать email",  homePage.getLoginErrorText());
+        loginPage.clickLoginFormToggleByEmail();
+        loginPage.enterUserPassword("12324215");
+        loginPage.submitCheckbox();
+        loginPage.clickLoginFormSubmit();
+        Assertions.assertEquals("Требуется указать email", loginPage.getLoginErrorText());
     }
 
     @Test
     public void submitFormWithoutPassword() {
-        homePage.openLoginForm();
-        homePage.enterUserPhone("333779999");
-        homePage.submitCheckbox();
-        homePage.clickLoginFormSubmit();
-        Assertions.assertEquals("Требуется указать пароль", homePage.getPasswordErrorText());
+        loginPage.enterUserPhone("333779999");
+        loginPage.submitCheckbox();
+        loginPage.clickLoginFormSubmit();
+        Assertions.assertEquals("Требуется указать пароль", loginPage.getPasswordErrorText());
     }
 
     @Test
     public void submitFormWithIncorrectPhone() {
-        homePage.openLoginForm();
-        homePage.enterUserPhone("999999999");
-        homePage.enterUserPassword("12342151");
-        homePage.submitCheckbox();
-        homePage.clickLoginFormSubmit();
-        Assertions.assertEquals("Укажите корректный номер телефона", homePage.getLoginErrorText());
+        loginPage.enterUserPhone("999999999");
+        loginPage.enterUserPassword("12342151");
+        loginPage.submitCheckbox();
+        loginPage.clickLoginFormSubmit();
+        Assertions.assertEquals("Укажите корректный номер телефона", loginPage.getLoginErrorText());
     }
 
     @Test
     public void submitFormWithIncorrectEmail() {
-        homePage.openLoginForm();
-        homePage.enterUserEmail("aaawadw@ddd");
-        homePage.enterUserPassword("12342151");
-        homePage.submitCheckbox();
-        homePage.clickLoginFormSubmit();
-        Assertions.assertEquals("Укажите корректный email", homePage.getLoginErrorText());
+        loginPage.enterUserEmail("aaawadw@ddd");
+        loginPage.enterUserPassword("12342151");
+        loginPage.submitCheckbox();
+        loginPage.clickLoginFormSubmit();
+        Assertions.assertEquals("Укажите корректный email", loginPage.getLoginErrorText());
     }
 
     @Test
     public void submitFormWithInvalidPassword() {
-        homePage.openLoginForm();
-        homePage.enterUserPhone("333779999");
-        homePage.enterUserPassword("123");
-        homePage.submitCheckbox();
-        homePage.clickLoginFormSubmit();
-        Assertions.assertEquals("Неверный логин или пароль. Проверьте введённые данные и попробуйте снова. Осталось попыток: 4", homePage.getInvalidCredentialErrorText());
+        loginPage.enterUserPhone("333779999");
+        loginPage.enterUserPassword("123");
+        loginPage.submitCheckbox();
+        loginPage.clickLoginFormSubmit();
+        Assertions.assertEquals("Неверный логин или пароль. Проверьте введённые данные и попробуйте снова. Осталось попыток: 4", loginPage.getInvalidCredentialErrorText());
     }
-
-    //UI тесты
 
     @Test
     public void loginFormByPhoneBodyHasContent() {
-        homePage.openLoginForm();
-        homePage.clickLoginFormToggleByPhone();
-        Assertions.assertEquals("Вход", homePage.getLoginFormTitle());
-        Assertions.assertEquals("По номеру телефона", homePage.getLoginFormToggleByPhone());
-        Assertions.assertEquals("По email", homePage.getLoginFormToggleByEmail());
-        Assertions.assertEquals("Номер телефона", homePage.getLoginFormLoginLabelByPhone());
-        Assertions.assertEquals("Пароль", homePage.getLoginFormPasswordLabelByPhone());
+        loginPage.clickLoginFormToggleByPhone();
+        Assertions.assertEquals("Вход", loginPage.getLoginFormTitle());
+        Assertions.assertEquals("По номеру телефона", loginPage.getLoginFormToggleByPhone());
+        Assertions.assertEquals("По email", loginPage.getLoginFormToggleByEmail());
+        Assertions.assertEquals("Номер телефона", loginPage.getLoginFormLoginLabelByPhone());
+        Assertions.assertEquals("Пароль", loginPage.getLoginFormPasswordLabelByPhone());
     }
 
     @Test
     public void loginFormByEmailBodyHasContent() {
-        homePage.openLoginForm();
-        homePage.clickLoginFormToggleByEmail();
-        Assertions.assertEquals("Вход", homePage.getLoginFormTitle());
-        Assertions.assertEquals("По номеру телефона", homePage.getLoginFormToggleByPhone());
-        Assertions.assertEquals("По email", homePage.getLoginFormToggleByEmail());
-        Assertions.assertEquals("Электронная почта", homePage.getLoginFormLoginLabelByPhone());
-        Assertions.assertEquals("Пароль", homePage.getLoginFormPasswordLabelByPhone());
+        loginPage.clickLoginFormToggleByEmail();
+        Assertions.assertEquals("Вход", loginPage.getLoginFormTitle());
+        Assertions.assertEquals("По номеру телефона", loginPage.getLoginFormToggleByPhone());
+        Assertions.assertEquals("По email", loginPage.getLoginFormToggleByEmail());
+        Assertions.assertEquals("Электронная почта", loginPage.getLoginFormLoginLabelByPhone());
+        Assertions.assertEquals("Пароль", loginPage.getLoginFormPasswordLabelByPhone());
     }
 
     @AfterEach
