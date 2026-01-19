@@ -72,6 +72,76 @@ public class HomeTest {
         Assertions.assertEquals("Вход", homePage.getLoginFormTitle());
     }
 
+    //негативные тесты логина
+
+    @Test
+    public void submitEmptyForm() {
+        homePage.openLoginForm();
+        homePage.submitCheckbox();
+        homePage.clickLoginFormSubmit();
+        Assertions.assertEquals("Требуется указать телефон", homePage.getLoginErrorText());
+    }
+
+    @Test
+    public void submitFormWithoutPhone() {
+        homePage.openLoginForm();
+        homePage.enterUserPassword("12342151");
+        homePage.submitCheckbox();
+        homePage.clickLoginFormSubmit();
+        Assertions.assertEquals("Требуется указать телефон", homePage.getLoginErrorText());
+    }
+
+    @Test
+    public void submitFormWithoutEmail() {
+        homePage.openLoginForm();
+        homePage.clickLoginFormToggleByEmail();
+        homePage.enterUserPassword("12324215");
+        homePage.submitCheckbox();
+        homePage.clickLoginFormSubmit();
+        Assertions.assertEquals("Требуется указать email",  homePage.getLoginErrorText());
+    }
+
+    @Test
+    public void submitFormWithoutPassword() {
+        homePage.openLoginForm();
+        homePage.enterUserPhone("333779999");
+        homePage.submitCheckbox();
+        homePage.clickLoginFormSubmit();
+        Assertions.assertEquals("Требуется указать пароль", homePage.getPasswordErrorText());
+    }
+
+    @Test
+    public void submitFormWithIncorrectPhone() {
+        homePage.openLoginForm();
+        homePage.enterUserPhone("999999999");
+        homePage.enterUserPassword("12342151");
+        homePage.submitCheckbox();
+        homePage.clickLoginFormSubmit();
+        Assertions.assertEquals("Укажите корректный номер телефона", homePage.getLoginErrorText());
+    }
+
+    @Test
+    public void submitFormWithIncorrectEmail() {
+        homePage.openLoginForm();
+        homePage.enterUserEmail("aaawadw@ddd");
+        homePage.enterUserPassword("12342151");
+        homePage.submitCheckbox();
+        homePage.clickLoginFormSubmit();
+        Assertions.assertEquals("Укажите корректный email", homePage.getLoginErrorText());
+    }
+
+    @Test
+    public void submitFormWithInvalidPassword() {
+        homePage.openLoginForm();
+        homePage.enterUserPhone("333779999");
+        homePage.enterUserPassword("123");
+        homePage.submitCheckbox();
+        homePage.clickLoginFormSubmit();
+        Assertions.assertEquals("Неверный логин или пароль. Проверьте введённые данные и попробуйте снова. Осталось попыток: 4", homePage.getInvalidCredentialErrorText());
+    }
+
+    //UI тесты
+
     @Test
     public void loginFormByPhoneBodyHasContent() {
         homePage.openLoginForm();
