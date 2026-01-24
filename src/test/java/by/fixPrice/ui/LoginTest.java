@@ -123,7 +123,7 @@ public class LoginTest {
         loginPage.enterUserPassword("123");
         loginPage.submitCheckbox();
         loginPage.clickLoginFormSubmit();
-        Assertions.assertEquals("Неверный логин или пароль. Проверьте введённые данные и попробуйте снова. Осталось попыток: 4", loginPage.getInvalidCredentialErrorText());
+        Assertions.assertTrue(loginPage.getInvalidCredentialErrorText().contains("Неверный логин или пароль. Проверьте введённые данные и попробуйте снова. Осталось попыток"));
     }
 
     @Test

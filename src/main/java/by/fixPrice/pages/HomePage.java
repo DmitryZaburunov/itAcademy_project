@@ -30,7 +30,6 @@ public class HomePage {
     public void openPage() {
         driver.get(BASE_URL);
     }
-
     public void openPage(String url) {
         driver.get(url);
     }
