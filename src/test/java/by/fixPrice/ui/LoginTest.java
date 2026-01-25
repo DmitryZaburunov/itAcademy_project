@@ -127,6 +127,17 @@ public class LoginTest {
     }
 
     @Test
+    public void submitFormWithInvalidCredentialToManyTimes() {
+        loginPage.enterUserPhone("333779999");
+        loginPage.enterUserPassword("12342");
+        loginPage.submitCheckbox();
+        for (int i = 0; i < 3;  i++) {
+            loginPage.clickLoginFormSubmit();
+        }
+        Assertions.assertEquals("Слишком много запросов", loginPage.getInvalidCredentialErrorText());
+    }
+
+    @Test
     public void loginFormByPhoneBodyHasContent() {
         loginPage.clickLoginFormToggleByPhone();
         Assertions.assertEquals("Вход", loginPage.getLoginFormTitle());
