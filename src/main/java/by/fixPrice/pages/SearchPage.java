@@ -1,11 +1,28 @@
 package by.fixPrice.pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SearchPage extends HomePage {
-    private final String SEARCH_PAGE_URL = "https://fix-price.by/search?q=qwer&sort=sold";
+    private final String SEARCH_PAGE_URL = "https://fix-price.by/search";
 
-    private final By NOT_FOUND_TEXT = By.xpath("//div[@class='page-content']//div[@class='title']");
+    private final By NOT_FOUND_TEXT = By.xpath("//div[@class='page-content']//div[@class='empty search-not-found']//div[@class='title']");
+
+    private final By SEARCH_INPUT = By.xpath("//div[@id='app-header']//input[@type='search']");
+
+    private final By SEARCH_INPUT_CLEAR_BTN = By.xpath("//div[@id='app-header']//i[@data-test='close']");
+
+    private final By SEARCH_RESULT_PRODUCTS = By.xpath("//div[@class='search-result']//main[@class='page-content']/div[@class='products']");
+
+    private final By SEARCH_RESULT_FILTER_CATEGORY = By.xpath("//div[@class='search-result']//div[@class='filterM-popup-content']/div[1]/div[@class='title']");
+
+    private final By SEARCH_RESULT_FILTER_PRICE = By.xpath("//div[@class='search-result']//div[@class='filterM-popup-content']/div[2]/div[@class='title']");
+
+    private final By SEARCH_RESULT_FILTER_MANUFACTURER = By.xpath("//div[@class='search-result']//div[@class='filterM-popup-content']/div[3]/div[@class='title']");
 
     public void open() {
         openPage(SEARCH_PAGE_URL);
@@ -13,5 +30,29 @@ public class SearchPage extends HomePage {
 
     public String getNotFoundText() {
         return waitFVOE(NOT_FOUND_TEXT).getText();
+    }
+
+    public WebElement getSearchInput() {
+        return waitFVOE(SEARCH_INPUT);
+    }
+
+    public WebElement getSearchInputClearBtn() {
+        return waitFVOE(SEARCH_INPUT_CLEAR_BTN);
+    }
+
+    public WebElement getSearchResultProducts() {
+        return waitFVOE(SEARCH_RESULT_PRODUCTS);
+    }
+
+    public WebElement getSearchResultFilterCategory() {
+        return waitFVOE(SEARCH_RESULT_FILTER_CATEGORY);
+    }
+
+    public WebElement getSearchResultFilterPrice() {
+        return waitFVOE(SEARCH_RESULT_FILTER_PRICE);
+    }
+
+    public WebElement getSearchResultFilterManufacturer() {
+        return waitFVOE(SEARCH_RESULT_FILTER_MANUFACTURER);
     }
 }
