@@ -3,6 +3,7 @@ package by.fixPrice.ui;
 import by.fixPrice.driver.Driver;
 import by.fixPrice.pages.HomePage;
 import by.fixPrice.pages.LoginPage;
+import com.github.javafaker.Faker;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,6 +11,7 @@ import org.junit.jupiter.api.Test;
 
 public class LoginTest {
     private LoginPage loginPage;
+    private Faker faker = new Faker();
 
     @BeforeEach
     public void startupAndAcceptCookie() {
@@ -22,8 +24,8 @@ public class LoginTest {
 
     @Test
     public void successLoginByPhoneNumber() {
-        loginPage.enterUserPhone("333772320");
-        loginPage.enterUserPassword("92TQbg8MC@sh4h!");
+        loginPage.enterUserPhone(faker.phoneNumber().phoneNumber());
+        loginPage.enterUserPassword(faker.internet().password(5,9, true, true, true));
         loginPage.submitCheckbox();
         loginPage.clickLoginFormSubmit();
         Assertions.assertEquals("Профиль", loginPage.getProfileBtnText(), "User isn't login by phone");
@@ -32,8 +34,8 @@ public class LoginTest {
     @Test
     public void successLoginByEmail() {
         loginPage.selectLoginForm("Email");
-        loginPage.enterUserEmail("dzmitry3077@gmail.com");
-        loginPage.enterUserPassword("92TQbg8MC@sh4h!");
+        loginPage.enterUserEmail("succesEmail@vfr.com");
+        loginPage.enterUserPassword("92TQd8wddMC@4h!");
         loginPage.submitCheckbox();
         loginPage.clickLoginFormSubmit();
         Assertions.assertEquals("Профиль", loginPage.getProfileBtnText(), "User isn't login by email");
@@ -75,7 +77,7 @@ public class LoginTest {
 
     @Test
     public void submitFormWithoutPhone() {
-        loginPage.enterUserPassword("12342151");
+        loginPage.enterUserPassword(faker.internet().password(5,9, true, true, true));
         loginPage.submitCheckbox();
         loginPage.clickLoginFormSubmit();
         Assertions.assertEquals("Требуется указать телефон", loginPage.getLoginErrorText());
@@ -84,7 +86,7 @@ public class LoginTest {
     @Test
     public void submitFormWithoutEmail() {
         loginPage.clickLoginFormToggleByEmail();
-        loginPage.enterUserPassword("12324215");
+        loginPage.enterUserPassword(faker.internet().password(5,9, true, true, true));
         loginPage.submitCheckbox();
         loginPage.clickLoginFormSubmit();
         Assertions.assertEquals("Требуется указать email", loginPage.getLoginErrorText());
@@ -92,7 +94,7 @@ public class LoginTest {
 
     @Test
     public void submitFormWithoutPassword() {
-        loginPage.enterUserPhone("333779999");
+        loginPage.enterUserPhone(faker.phoneNumber().phoneNumber());
         loginPage.submitCheckbox();
         loginPage.clickLoginFormSubmit();
         Assertions.assertEquals("Требуется указать пароль", loginPage.getPasswordErrorText());
@@ -100,8 +102,8 @@ public class LoginTest {
 
     @Test
     public void submitFormWithIncorrectPhone() {
-        loginPage.enterUserPhone("9999999");
-        loginPage.enterUserPassword("12342151");
+        loginPage.enterUserPhone(faker.phoneNumber().phoneNumber());
+        loginPage.enterUserPassword(faker.internet().password(5,9, true, true, true));
         loginPage.submitCheckbox();
         loginPage.clickLoginFormSubmit();
         Assertions.assertEquals("Укажите корректный номер телефона", loginPage.getLoginErrorText());
@@ -110,8 +112,8 @@ public class LoginTest {
     @Test
     public void submitFormWithIncorrectEmail() {
         loginPage.clickLoginFormToggleByEmail();
-        loginPage.enterUserEmail("aaawadw@ddd");
-        loginPage.enterUserPassword("12342151");
+        loginPage.enterUserEmail(faker.internet().emailAddress());
+        loginPage.enterUserPassword(faker.internet().password(5,9, true, true, true));
         loginPage.submitCheckbox();
         loginPage.clickLoginFormSubmit();
         Assertions.assertEquals("Укажите корректный email", loginPage.getLoginErrorText());
@@ -119,8 +121,8 @@ public class LoginTest {
 
     @Test
     public void submitFormWithInvalidPassword() {
-        loginPage.enterUserPhone("333779999");
-        loginPage.enterUserPassword("123");
+        loginPage.enterUserPhone(faker.phoneNumber().phoneNumber());
+        loginPage.enterUserPassword(faker.internet().password(5,9, true, true, true));
         loginPage.submitCheckbox();
         loginPage.clickLoginFormSubmit();
         Assertions.assertTrue(loginPage.getInvalidCredentialErrorText().contains("Неверный логин или пароль. Проверьте введённые данные и попробуйте снова. Осталось попыток"));
@@ -128,8 +130,8 @@ public class LoginTest {
 
     @Test
     public void submitFormWithInvalidCredentialToManyTimes() {
-        loginPage.enterUserPhone("333779999");
-        loginPage.enterUserPassword("12342");
+        loginPage.enterUserPhone(faker.phoneNumber().phoneNumber());
+        loginPage.enterUserPassword(faker.internet().password(5,9, true, true, true));
         loginPage.submitCheckbox();
         for (int i = 0; i < 3; i++) {
             loginPage.clickLoginFormSubmit();
