@@ -131,7 +131,7 @@ public class LoginTest {
         loginPage.enterUserPhone("333779999");
         loginPage.enterUserPassword("12342");
         loginPage.submitCheckbox();
-        for (int i = 0; i < 3;  i++) {
+        for (int i = 0; i < 3; i++) {
             loginPage.clickLoginFormSubmit();
         }
         Assertions.assertEquals("Слишком много запросов", loginPage.getInvalidCredentialErrorText());
