@@ -24,8 +24,8 @@ public class LoginTest {
         userAuthService.doRequest(invalidEmail, invalidPassword);
 
         Assertions.assertAll(
-                () -> Assertions.assertEquals(400, userAuthService.getResponseCode()),
-                () -> Assertions.assertTrue(userAuthService.getResponseMessage("message").contains("Неверный логин или пароль. Проверьте введённые данные и попробуйте снова"))
+                () -> Assertions.assertEquals(400, userAuthService.getResponseCode(), "status code not equals 400"),
+                () -> Assertions.assertTrue(userAuthService.getResponseMessage("message").contains("Неверный логин или пароль. Проверьте введённые данные и попробуйте снова"), "message value isn't correct")
         );
     }
 
@@ -34,8 +34,8 @@ public class LoginTest {
         userAuthService.doRequest(validEmail, validPassword);
 
         Assertions.assertAll(
-                () -> Assertions.assertFalse(userAuthService.getIsUserConfirmed()),
-                () -> Assertions.assertEquals(200, userAuthService.getResponseCode())
+                () -> Assertions.assertFalse(userAuthService.getIsUserConfirmed(), "user confirmed"),
+                () -> Assertions.assertEquals(200, userAuthService.getResponseCode(), "status code is not equals 200")
         );
     }
 }

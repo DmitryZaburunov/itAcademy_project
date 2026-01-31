@@ -10,6 +10,6 @@ public class SearchTest {
     public void searchTest() {
         productSearchService = new ProductSearchService();
         productSearchService.doRequest("Книги");
-        Assertions.assertTrue(productSearchService.getRequestCategories().contains("Книги"));
+        Assertions.assertTrue(productSearchService.getRequestCategories().contains("Книги"), "Search results is not contains searchText");
     }
 }

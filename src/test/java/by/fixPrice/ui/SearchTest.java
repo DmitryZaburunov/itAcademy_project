@@ -24,20 +24,20 @@ public class SearchTest {
     public void verifyNotFoundText() {
         searchPage.getSearchInput().sendKeys(faker.lorem().characters(10));
         searchPage.getSearchInput().sendKeys(Keys.ENTER);
-        Assertions.assertEquals("По Вашему запросу ничего не найдено", searchPage.getNotFoundText());
+        Assertions.assertEquals("По Вашему запросу ничего не найдено", searchPage.getNotFoundText(), "There's no info text or text isn't match");
     }
 
     @Test
     public void searchInputClearBtnDisplayedAfterSendKeys() {
         searchPage.getSearchInput().sendKeys("1");
-        Assertions.assertTrue(searchPage.getSearchInputClearBtn().isDisplayed());
+        Assertions.assertTrue(searchPage.getSearchInputClearBtn().isDisplayed(), "Clear button is not displayed after type first symbol");
     }
 
     @Test
     public void clearSearchInput() {
         searchPage.getSearchInput().sendKeys("testText");
         searchPage.getSearchInputClearBtn().click();
-        Assertions.assertTrue(searchPage.getSearchInput().getAttribute("value").isEmpty());
+        Assertions.assertTrue(searchPage.getSearchInput().getAttribute("value").isEmpty(), "Inlut ins't empty after clear");
     }
 
     @Test
@@ -45,10 +45,10 @@ public class SearchTest {
         searchPage.getSearchInput().sendKeys("Пакет");
         searchPage.getSearchInput().sendKeys(Keys.ENTER);
         Assertions.assertAll("Verify search page after product was found",
-                () -> Assertions.assertTrue(searchPage.getSearchResultProducts().isDisplayed()),
-                () -> Assertions.assertTrue(searchPage.getSearchResultFilterCategory().isDisplayed()),
-                () -> Assertions.assertTrue(searchPage.getSearchResultFilterPrice().isDisplayed()),
-                () -> Assertions.assertTrue(searchPage.getSearchResultFilterManufacturer().isDisplayed())
+                () -> Assertions.assertTrue(searchPage.getSearchResultProducts().isDisplayed(), "Search products isn't displayed"),
+                () -> Assertions.assertTrue(searchPage.getSearchResultFilterCategory().isDisplayed(), "Filter category isn't displayed"),
+                () -> Assertions.assertTrue(searchPage.getSearchResultFilterPrice().isDisplayed(), "Filter price isn't displayed"),
+                () -> Assertions.assertTrue(searchPage.getSearchResultFilterManufacturer().isDisplayed(), "Filter manufacturer isn't displayed")
         );
     }
 
