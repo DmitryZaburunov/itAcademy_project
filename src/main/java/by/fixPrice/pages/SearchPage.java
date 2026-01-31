@@ -2,10 +2,6 @@ package by.fixPrice.pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class SearchPage extends HomePage {
     private final String SEARCH_PAGE_URL = "https://fix-price.by/search";
