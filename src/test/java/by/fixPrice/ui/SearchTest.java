@@ -2,6 +2,7 @@ package by.fixPrice.ui;
 
 import by.fixPrice.driver.Driver;
 import by.fixPrice.pages.SearchPage;
+import com.github.javafaker.Faker;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,6 +11,7 @@ import org.openqa.selenium.Keys;
 
 public class SearchTest {
     private SearchPage searchPage;
+    private Faker faker = new Faker();
 
     @BeforeEach
     public void startupAndAcceptCookie() {
@@ -20,7 +22,7 @@ public class SearchTest {
 
     @Test
     public void verifyNotFoundText() {
-        searchPage.getSearchInput().sendKeys("qwertyyyy");
+        searchPage.getSearchInput().sendKeys(faker.lorem().characters(10));
         searchPage.getSearchInput().sendKeys(Keys.ENTER);
         Assertions.assertEquals("По Вашему запросу ничего не найдено", searchPage.getNotFoundText());
     }
