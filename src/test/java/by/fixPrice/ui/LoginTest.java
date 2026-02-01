@@ -2,166 +2,161 @@ package by.fixPrice.ui;
 
 import by.fixPrice.driver.Driver;
 import by.fixPrice.pages.HomePage;
+import by.fixPrice.pages.LoginPage;
+import com.github.javafaker.Faker;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class LoginTest {
-    public HomePage homePage;
+    private LoginPage loginPage;
+    private Faker faker = new Faker();
 
     @BeforeEach
     public void startupAndAcceptCookie() {
-        homePage = new HomePage();
+        HomePage homePage = new HomePage();
         homePage.openPage();
         homePage.acceptCookies();
+        homePage.openLoginForm();
+        loginPage = new LoginPage();
     }
-
-    //позитиные кейсы
 
     @Test
     public void successLoginByPhoneNumber() {
-        homePage.openLoginForm();
-        homePage.enterUserPhone("333772320");
-        homePage.enterUserPassword("92TQbg8MC@sh4h!");
-        homePage.submitCheckbox();
-        homePage.clickLoginFormSubmit();
-        Assertions.assertEquals("Профиль", homePage.getProfileBtnText(), "User isn't login by phone");
+        loginPage.enterUserPhone(faker.phoneNumber().phoneNumber());
+        loginPage.enterUserPassword(faker.internet().password(5,9, true, true, true));
+        loginPage.submitCheckbox();
+        loginPage.clickLoginFormSubmit();
+        Assertions.assertEquals("Профиль", loginPage.getProfileBtnText(), "User isn't login by phone");
     }
 
     @Test
     public void successLoginByEmail() {
-        homePage.openLoginForm();
-        homePage.selectLoginForm("Email");
-        homePage.enterUserEmail("dzmitry3077@gmail.com");
-        homePage.enterUserPassword("92TQbg8MC@sh4h!");
-        homePage.submitCheckbox();
-        homePage.clickLoginFormSubmit();
-        Assertions.assertEquals("Профиль", homePage.getProfileBtnText(), "User isn't login by email");
+        loginPage.selectLoginForm("Email");
+        loginPage.enterUserEmail("succesEmail@vfr.com");
+        loginPage.enterUserPassword("92TQd8wddMC@4h!");
+        loginPage.submitCheckbox();
+        loginPage.clickLoginFormSubmit();
+        Assertions.assertEquals("Профиль", loginPage.getProfileBtnText(), "User isn't login by email");
     }
 
     @Test
     public void checkboxIsNotCheckedByDefault() {
-        homePage.openLoginForm();
-        Assertions.assertEquals(false, homePage.getCheckboxChecked(), "Checkbox is checked by default");
+        Assertions.assertEquals(false, loginPage.getCheckboxChecked(), "Checkbox is checked by default");
     }
 
     @Test
     public void submitDisabledUntilCheckboxChecked() {
-        homePage.openLoginForm();
-        Assertions.assertFalse(homePage.getLoginFormSubmitButtonBy().isEnabled());
+        Assertions.assertFalse(loginPage.getLoginFormSubmitButtonBy().isEnabled(),"Submit button is not disabled before checkbox will checked");
     }
 
     @Test
     public void forgotPasswordLinkRedirected() {
-        homePage.openLoginForm();
-        homePage.clickLoginFormForgotPasswordLink();
-        Assertions.assertEquals("Восстановление пароля", homePage.getLoginFormTitle());
+        loginPage.clickLoginFormForgotPasswordLink();
+        Assertions.assertEquals("Восстановление пароля", loginPage.getLoginFormTitle(), "Login form title is not contains 'Восстановление пароля'");
     }
 
     @Test
     public void registerLinkRedirected() {
-        homePage.openLoginForm();
-        homePage.clickLoginFormRegisterLink();
-        Assertions.assertEquals("Регистрация", homePage.getLoginFormTitle());
+        loginPage.clickLoginFormRegisterLink();
+        Assertions.assertEquals("Регистрация", loginPage.getLoginFormTitle(), "Login form title is not contains 'Регистрация'");
     }
 
     @Test
     public void loginFormHeaderHasTitle() {
-        homePage.openLoginForm();
-        Assertions.assertEquals("Вход", homePage.getLoginFormTitle());
+        Assertions.assertEquals("Вход", loginPage.getLoginFormTitle(), "Login form is not have title");
     }
-
-    //негативные тесты логина
 
     @Test
     public void submitEmptyForm() {
-        homePage.openLoginForm();
-        homePage.submitCheckbox();
-        homePage.clickLoginFormSubmit();
-        Assertions.assertEquals("Требуется указать телефон", homePage.getLoginErrorText());
+        loginPage.submitCheckbox();
+        loginPage.clickLoginFormSubmit();
+        Assertions.assertEquals("Требуется указать телефон", loginPage.getLoginErrorText(), "Form submit error text is incorrect");
     }
 
     @Test
     public void submitFormWithoutPhone() {
-        homePage.openLoginForm();
-        homePage.enterUserPassword("12342151");
-        homePage.submitCheckbox();
-        homePage.clickLoginFormSubmit();
-        Assertions.assertEquals("Требуется указать телефон", homePage.getLoginErrorText());
+        loginPage.enterUserPassword(faker.internet().password(5,9, true, true, true));
+        loginPage.submitCheckbox();
+        loginPage.clickLoginFormSubmit();
+        Assertions.assertEquals("Требуется указать телефон", loginPage.getLoginErrorText(), "Form submit error text isn't match");
     }
 
     @Test
     public void submitFormWithoutEmail() {
-        homePage.openLoginForm();
-        homePage.clickLoginFormToggleByEmail();
-        homePage.enterUserPassword("12324215");
-        homePage.submitCheckbox();
-        homePage.clickLoginFormSubmit();
-        Assertions.assertEquals("Требуется указать email",  homePage.getLoginErrorText());
+        loginPage.clickLoginFormToggleByEmail();
+        loginPage.enterUserPassword(faker.internet().password(5,9, true, true, true));
+        loginPage.submitCheckbox();
+        loginPage.clickLoginFormSubmit();
+        Assertions.assertEquals("Требуется указать email", loginPage.getLoginErrorText(), "Email required text isn't match");
     }
 
     @Test
     public void submitFormWithoutPassword() {
-        homePage.openLoginForm();
-        homePage.enterUserPhone("333779999");
-        homePage.submitCheckbox();
-        homePage.clickLoginFormSubmit();
-        Assertions.assertEquals("Требуется указать пароль", homePage.getPasswordErrorText());
+        loginPage.enterUserPhone(faker.phoneNumber().phoneNumber());
+        loginPage.submitCheckbox();
+        loginPage.clickLoginFormSubmit();
+        Assertions.assertEquals("Требуется указать пароль", loginPage.getPasswordErrorText(), "Password required text isn't match");
     }
 
     @Test
     public void submitFormWithIncorrectPhone() {
-        homePage.openLoginForm();
-        homePage.enterUserPhone("999999999");
-        homePage.enterUserPassword("12342151");
-        homePage.submitCheckbox();
-        homePage.clickLoginFormSubmit();
-        Assertions.assertEquals("Укажите корректный номер телефона", homePage.getLoginErrorText());
+        loginPage.enterUserPhone(faker.phoneNumber().phoneNumber());
+        loginPage.enterUserPassword(faker.internet().password(5,9, true, true, true));
+        loginPage.submitCheckbox();
+        loginPage.clickLoginFormSubmit();
+        Assertions.assertEquals("Укажите корректный номер телефона", loginPage.getLoginErrorText(), "Incorrect or no phone text isn't match");
     }
 
     @Test
     public void submitFormWithIncorrectEmail() {
-        homePage.openLoginForm();
-        homePage.enterUserEmail("aaawadw@ddd");
-        homePage.enterUserPassword("12342151");
-        homePage.submitCheckbox();
-        homePage.clickLoginFormSubmit();
-        Assertions.assertEquals("Укажите корректный email", homePage.getLoginErrorText());
+        loginPage.clickLoginFormToggleByEmail();
+        loginPage.enterUserEmail(faker.internet().emailAddress());
+        loginPage.enterUserPassword(faker.internet().password(5,9, true, true, true));
+        loginPage.submitCheckbox();
+        loginPage.clickLoginFormSubmit();
+        Assertions.assertEquals("Укажите корректный email", loginPage.getLoginErrorText(), "Incorrect or no email text isn't match");
     }
 
     @Test
     public void submitFormWithInvalidPassword() {
-        homePage.openLoginForm();
-        homePage.enterUserPhone("333779999");
-        homePage.enterUserPassword("123");
-        homePage.submitCheckbox();
-        homePage.clickLoginFormSubmit();
-        Assertions.assertEquals("Неверный логин или пароль. Проверьте введённые данные и попробуйте снова. Осталось попыток: 4", homePage.getInvalidCredentialErrorText());
+        loginPage.enterUserPhone(faker.phoneNumber().phoneNumber());
+        loginPage.enterUserPassword(faker.internet().password(5,9, true, true, true));
+        loginPage.submitCheckbox();
+        loginPage.clickLoginFormSubmit();
+        Assertions.assertTrue(loginPage.getInvalidCredentialErrorText().contains("Неверный логин или пароль. Проверьте введённые данные и попробуйте снова."), "Incorrect or no error text");
     }
 
-    //UI тесты
+    @Test
+    public void submitFormWithInvalidCredentialToManyTimes() {
+        loginPage.enterUserPhone(faker.phoneNumber().phoneNumber());
+        loginPage.enterUserPassword(faker.internet().password(5,9, true, true, true));
+        loginPage.submitCheckbox();
+        for (int i = 0; i < 3; i++) {
+            loginPage.clickLoginFormSubmit();
+        }
+        Assertions.assertEquals("Слишком много запросов", loginPage.getInvalidCredentialErrorText(), "Incorrect or no error text");
+    }
 
     @Test
     public void loginFormByPhoneBodyHasContent() {
-        homePage.openLoginForm();
-        homePage.clickLoginFormToggleByPhone();
-        Assertions.assertEquals("Вход", homePage.getLoginFormTitle());
-        Assertions.assertEquals("По номеру телефона", homePage.getLoginFormToggleByPhone());
-        Assertions.assertEquals("По email", homePage.getLoginFormToggleByEmail());
-        Assertions.assertEquals("Номер телефона", homePage.getLoginFormLoginLabelByPhone());
-        Assertions.assertEquals("Пароль", homePage.getLoginFormPasswordLabelByPhone());
+        loginPage.clickLoginFormToggleByPhone();
+        Assertions.assertEquals("Вход", loginPage.getLoginFormTitle(), "There's no or incorrect text 'Вход'");
+        Assertions.assertEquals("По номеру телефона", loginPage.getLoginFormToggleByPhone(), "There's no or incorrect text 'По номеру телефона'");
+        Assertions.assertEquals("По email", loginPage.getLoginFormToggleByEmail(), "There's no or incorrect text 'По email'");
+        Assertions.assertEquals("Номер телефона", loginPage.getLoginFormLoginLabelByPhone(), "There's no or incorrect text 'Номер телефона'");
+        Assertions.assertEquals("Пароль", loginPage.getLoginFormPasswordLabelByPhone(), "There's no or incorrect text 'Пароль'");
     }
 
     @Test
     public void loginFormByEmailBodyHasContent() {
-        homePage.openLoginForm();
-        homePage.clickLoginFormToggleByEmail();
-        Assertions.assertEquals("Вход", homePage.getLoginFormTitle());
-        Assertions.assertEquals("По номеру телефона", homePage.getLoginFormToggleByPhone());
-        Assertions.assertEquals("По email", homePage.getLoginFormToggleByEmail());
-        Assertions.assertEquals("Электронная почта", homePage.getLoginFormLoginLabelByPhone());
-        Assertions.assertEquals("Пароль", homePage.getLoginFormPasswordLabelByPhone());
+        loginPage.clickLoginFormToggleByEmail();
+        Assertions.assertEquals("Вход", loginPage.getLoginFormTitle(), "There's no or incorrect text 'Вход'");
+        Assertions.assertEquals("По номеру телефона", loginPage.getLoginFormToggleByPhone(), "There's no or incorrect text 'По номеру телефона'");
+        Assertions.assertEquals("По email", loginPage.getLoginFormToggleByEmail(), "There's no or incorrect text 'По email'");
+        Assertions.assertEquals("Электронная почта", loginPage.getLoginFormLoginLabelByPhone(), "There's no or incorrect text 'Электронная почта'");
+        Assertions.assertEquals("Пароль", loginPage.getLoginFormPasswordLabelByPhone(), "There's no or incorrect text 'Пароль'");
     }
 
     @AfterEach
