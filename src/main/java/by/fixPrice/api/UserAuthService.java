@@ -1,6 +1,8 @@
 package by.fixPrice.api;
 
 import io.restassured.response.Response;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,6 +11,7 @@ import static io.restassured.RestAssured.given;
 
 public class UserAuthService {
     private final String USER_AUTH_URL = "https://api.fix-price.by/buyer/v2/auth/login";
+    public Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private Response response;
 
@@ -27,6 +30,7 @@ public class UserAuthService {
     }
 
     public void doRequest(String email, String password) {
+        logger.info("Start request user auth email:{}, password:{}", email, password);
         response =
                 given()
                         .headers(getHeaders())
@@ -36,14 +40,17 @@ public class UserAuthService {
     }
 
     public int getResponseCode() {
+        logger.info("Get response code");
         return response.statusCode();
     }
 
     public String getResponseMessage(String path) {
+        logger.info("Get response message");
         return response.jsonPath().getString(path);
     }
 
     public boolean getIsUserConfirmed() {
+        logger.info("Get isUserConfirmed");
         return response.jsonPath().getBoolean("isUserConfirmed");
     }
 

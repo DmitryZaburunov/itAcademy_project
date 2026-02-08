@@ -1,6 +1,9 @@
 package by.fixPrice.api;
 
 import io.restassured.response.Response;
+import org.slf4j.ILoggerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.List;
@@ -10,6 +13,7 @@ import static io.restassured.RestAssured.given;
 
 public class ProductSearchService {
     private final String SEARCH_PRODUCT_URL = "https://api.fix-price.by/buyer/v1/product/filter/properties";
+    public Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private Response response;
 
@@ -37,6 +41,7 @@ public class ProductSearchService {
     }
 
     public void doRequest(String product) {
+        logger.info("Start doRequest by product [{}]",  product);
         response =
                 given()
                         .headers(getHeaders())
@@ -46,6 +51,7 @@ public class ProductSearchService {
     }
 
     public String getRequestCategories() {
+        logger.info("get request categories");
         return response.jsonPath().getString("category");
     }
 }
