@@ -1,7 +1,6 @@
 package by.fixPrice.api;
 
 import io.restassured.response.Response;
-import org.slf4j.ILoggerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,7 +40,7 @@ public class ProductSearchService {
     }
 
     public void doRequest(String product) {
-        logger.info("Start doRequest by product [{}]",  product);
+        logger.info("Start doRequest by product [{}]", product);
         response =
                 given()
                         .headers(getHeaders())
