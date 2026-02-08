@@ -25,7 +25,7 @@ public class LoginTest {
     @Test
     public void successLoginByPhoneNumber() {
         loginPage.enterUserPhone(faker.phoneNumber().phoneNumber());
-        loginPage.enterUserPassword(faker.internet().password(5,9, true, true, true));
+        loginPage.enterUserPassword(faker.internet().password(5, 9, true, true, true));
         loginPage.submitCheckbox();
         loginPage.clickLoginFormSubmit();
         Assertions.assertEquals("Профиль", loginPage.getProfileBtnText(), "User isn't login by phone");
@@ -48,7 +48,7 @@ public class LoginTest {
 
     @Test
     public void submitDisabledUntilCheckboxChecked() {
-        Assertions.assertFalse(loginPage.getLoginFormSubmitButtonBy().isEnabled(),"Submit button is not disabled before checkbox will checked");
+        Assertions.assertFalse(loginPage.getLoginFormSubmitButtonBy().isEnabled(), "Submit button is not disabled before checkbox will checked");
     }
 
     @Test
@@ -77,7 +77,7 @@ public class LoginTest {
 
     @Test
     public void submitFormWithoutPhone() {
-        loginPage.enterUserPassword(faker.internet().password(5,9, true, true, true));
+        loginPage.enterUserPassword(faker.internet().password(5, 9, true, true, true));
         loginPage.submitCheckbox();
         loginPage.clickLoginFormSubmit();
         Assertions.assertEquals("Требуется указать телефон", loginPage.getLoginErrorText(), "Form submit error text isn't match");
@@ -86,7 +86,7 @@ public class LoginTest {
     @Test
     public void submitFormWithoutEmail() {
         loginPage.clickLoginFormToggleByEmail();
-        loginPage.enterUserPassword(faker.internet().password(5,9, true, true, true));
+        loginPage.enterUserPassword(faker.internet().password(5, 9, true, true, true));
         loginPage.submitCheckbox();
         loginPage.clickLoginFormSubmit();
         Assertions.assertEquals("Требуется указать email", loginPage.getLoginErrorText(), "Email required text isn't match");
@@ -103,7 +103,7 @@ public class LoginTest {
     @Test
     public void submitFormWithIncorrectPhone() {
         loginPage.enterUserPhone(faker.phoneNumber().phoneNumber());
-        loginPage.enterUserPassword(faker.internet().password(5,9, true, true, true));
+        loginPage.enterUserPassword(faker.internet().password(5, 9, true, true, true));
         loginPage.submitCheckbox();
         loginPage.clickLoginFormSubmit();
         Assertions.assertEquals("Укажите корректный номер телефона", loginPage.getLoginErrorText(), "Incorrect or no phone text isn't match");
@@ -113,7 +113,7 @@ public class LoginTest {
     public void submitFormWithIncorrectEmail() {
         loginPage.clickLoginFormToggleByEmail();
         loginPage.enterUserEmail(faker.internet().emailAddress());
-        loginPage.enterUserPassword(faker.internet().password(5,9, true, true, true));
+        loginPage.enterUserPassword(faker.internet().password(5, 9, true, true, true));
         loginPage.submitCheckbox();
         loginPage.clickLoginFormSubmit();
         Assertions.assertEquals("Укажите корректный email", loginPage.getLoginErrorText(), "Incorrect or no email text isn't match");
@@ -122,7 +122,7 @@ public class LoginTest {
     @Test
     public void submitFormWithInvalidPassword() {
         loginPage.enterUserPhone(faker.phoneNumber().phoneNumber());
-        loginPage.enterUserPassword(faker.internet().password(5,9, true, true, true));
+        loginPage.enterUserPassword(faker.internet().password(5, 9, true, true, true));
         loginPage.submitCheckbox();
         loginPage.clickLoginFormSubmit();
         Assertions.assertTrue(loginPage.getInvalidCredentialErrorText().contains("Неверный логин или пароль. Проверьте введённые данные и попробуйте снова."), "Incorrect or no error text");
@@ -131,7 +131,7 @@ public class LoginTest {
     @Test
     public void submitFormWithInvalidCredentialToManyTimes() {
         loginPage.enterUserPhone(faker.phoneNumber().phoneNumber());
-        loginPage.enterUserPassword(faker.internet().password(5,9, true, true, true));
+        loginPage.enterUserPassword(faker.internet().password(5, 9, true, true, true));
         loginPage.submitCheckbox();
         for (int i = 0; i < 3; i++) {
             loginPage.clickLoginFormSubmit();

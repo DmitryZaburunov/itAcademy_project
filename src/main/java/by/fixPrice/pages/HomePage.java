@@ -6,6 +6,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
 
@@ -17,6 +19,7 @@ public class HomePage {
 
     public WebDriver driver;
     public WebDriverWait wait;
+    public Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public HomePage() {
         this.driver = Driver.getDriver();
@@ -24,11 +27,13 @@ public class HomePage {
     }
 
     public WebElement waitFVOE(By locator) {
+        logger.info("Waiting for element [{}]", locator);
         return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
     public void openPage() {
-        driver.get(BASE_URL);
+        logger.info("Opening page with URL [{}]", BASE_URL);
+        openPage(BASE_URL);
     }
 
     public void openPage(String url) {
@@ -36,10 +41,12 @@ public class HomePage {
     }
 
     public void acceptCookies() {
+        logger.info("Accepting cookies");
         waitFVOE(COOKIE_ALERT_ACCEPT_BTN).click();
     }
 
     public void openLoginForm() {
+        logger.info("Opening login form");
         waitFVOE(LOGIN_BTN).click();
     }
 }

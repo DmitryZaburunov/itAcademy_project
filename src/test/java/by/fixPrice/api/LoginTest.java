@@ -7,12 +7,11 @@ import org.junit.jupiter.api.Test;
 
 public class LoginTest {
     private final Faker faker = new Faker();
-
-    private UserAuthService userAuthService;
     private final String validEmail = "dzmitry3077@gmail.com";
     private final String validPassword = "23025Fix";
     private final String invalidEmail = faker.internet().emailAddress();
     private final String invalidPassword = faker.internet().password();
+    private UserAuthService userAuthService;
 
     @BeforeEach
     public void setUp() {
