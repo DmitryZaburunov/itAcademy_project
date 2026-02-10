@@ -13,9 +13,12 @@ import java.time.Duration;
 
 public class HomePage {
     protected final String BASE_URL = "https://fix-price.by/";
-    protected final By COOKIE_ALERT_ACCEPT_BTN = By.xpath("//div[@class='cookies-bar']//button[@class='button config']");
-    protected final By LOGIN_BTN = By.xpath("//div[@class='categories-wrapper categories']//button[@class='log-in link']");
-    protected final By PROFILE_BTN_TEXT = By.xpath("//div[@class='categories-wrapper categories']/div[@class='profile-desktop']//span[@class='title']");
+    protected final By COOKIE_ALERT_ACCEPT_BTN = By
+            .xpath("//div[@class='cookies-bar']//button[@class='button config']");
+    protected final By LOGIN_BTN = By
+            .xpath("//div[@class='categories-wrapper categories']//button[@class='log-in link']");
+    protected final By PROFILE_BTN_TEXT = By
+            .xpath("//div[@class='categories-wrapper categories']/div[@class='profile-desktop']//span[@class='title']");
 
     public WebDriver driver;
     public WebDriverWait wait;
