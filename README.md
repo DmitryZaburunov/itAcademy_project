@@ -40,3 +40,4 @@ TAF в рамках итогового проекта по курсу автом
 * slf4j
 * Logback
 * Jenkins
+* AShot
